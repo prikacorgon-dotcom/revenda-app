@@ -1,0 +1,6 @@
+{
+  "name": "BellaGestão - Consultoria de Beleza Multimarcas",
+  "description": "Sistema completo e elegante para consultoras de beleza gerenciarem compras, marcas parceiras, pontuação, vendas com cálculo automático de lucros, parcelamentos e avisos diretos por WhatsApp e e-mail.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
