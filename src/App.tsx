@@ -209,7 +209,7 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-6 lg:py-8 pb-24 md:pb-10">
         {activeTab === 'dashboard' && (
           <DashboardOverview
             brands={brands}
@@ -321,7 +321,7 @@ export default function App() {
       />
 
       {/* Footer simples e elegante */}
-      <footer className="border-t border-stone-200/80 py-6 px-4 text-center text-xs text-stone-500 bg-white">
+      <footer className="border-t border-stone-200/80 py-6 px-4 text-center text-xs text-stone-500 bg-white mb-14 md:mb-0">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-serif font-bold text-stone-900">BellaGestão</span>

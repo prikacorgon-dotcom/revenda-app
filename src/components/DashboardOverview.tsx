@@ -136,52 +136,52 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Banner de Boas-Vindas da Consultora */}
-      <div className="bg-white border border-stone-200/80 rounded-3xl p-6 lg:p-8 shadow-xs">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl overflow-hidden border border-rose-200 bg-rose-50 shrink-0">
+      <div className="bg-white border border-stone-200/80 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xs">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+          <div className="flex items-center gap-3.5 sm:gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl overflow-hidden border border-rose-200 bg-rose-50 shrink-0">
               <img
                 src={profile.avatarUrl || '/src/assets/images/consultant_profile_avatar_1793146987839.jpg'}
                 alt={profile.name}
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
-                  Nível {profile.resellerLevel || 'Ouro'}
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full truncate">
+                  Nível {profile.resellerLevel || 'Iniciante'}
                 </span>
-                <span className="text-xs text-stone-400 font-medium">·</span>
-                <span className="text-xs text-stone-500 font-medium">
+                <span className="text-xs text-stone-300 font-medium">·</span>
+                <span className="text-xs text-stone-500 font-medium truncate">
                   {profile.businessName || 'Consultoria de Beleza'}
                 </span>
               </div>
-              <h1 className="font-serif text-2xl lg:text-3xl font-bold text-stone-900 tracking-tight">
+              <h1 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-stone-900 tracking-tight truncate">
                 Olá, {profile.name || 'Consultora'}!
               </h1>
-              <p className="text-xs text-stone-500 mt-1">
+              <p className="text-xs text-stone-500 mt-0.5 hidden sm:block">
                 Controle em tempo real de pedidos às marcas parceiras, vendas com margem real e cobranças no WhatsApp.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
             <button
               onClick={() => onNavigate('perfil')}
-              className="px-3.5 py-2 text-xs font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
+              className="flex-1 sm:flex-initial px-3 py-2 text-xs font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
             >
               <UserCheck className="w-4 h-4 text-rose-500" />
-              Meu Cadastro
+              <span>Meu Cadastro</span>
             </button>
             <button
               onClick={onNewPurchaseClick}
-              className="px-4 py-2 text-xs font-semibold text-stone-800 bg-[#FFF2EB] hover:bg-[#FFE5D8] border border-[#FAD0BD] rounded-xl transition-all cursor-pointer whitespace-nowrap"
+              className="flex-1 sm:flex-initial px-3.5 py-2 text-xs font-semibold text-stone-800 bg-[#FFF2EB] hover:bg-[#FFE5D8] border border-[#FAD0BD] rounded-xl transition-all cursor-pointer whitespace-nowrap text-center justify-center"
             >
               + Pedido à Marca
             </button>
             <button
               onClick={onNewSaleClick}
-              className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 transition-all cursor-pointer whitespace-nowrap"
+              className="w-full sm:w-auto px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 transition-all cursor-pointer whitespace-nowrap text-center justify-center"
             >
               + Nova Venda
             </button>

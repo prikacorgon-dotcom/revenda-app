@@ -323,8 +323,8 @@ export const BrandsManagement: React.FC<BrandsManagementProps> = ({
 
       {/* Modal de Cadastro / Edição da Empresa Parceira */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full border border-stone-200 shadow-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-stone-200 shadow-2xl overflow-hidden p-4 sm:p-6 max-h-[92vh] sm:max-h-[90vh] overflow-y-auto my-auto">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3 mb-4">
               <h3 className="font-serif text-lg font-bold text-stone-900">
                 {editingBrand ? 'Editar Empresa Parceira' : 'Cadastrar Nova Empresa Parceira'}
@@ -440,17 +440,17 @@ export const BrandsManagement: React.FC<BrandsManagementProps> = ({
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-stone-100">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 sm:gap-3 pt-3 border-t border-stone-100">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2.5 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl cursor-pointer text-center"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 cursor-pointer text-center"
                 >
                   Salvar Marca Parceira
                 </button>

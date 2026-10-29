@@ -639,10 +639,10 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
 
       {/* Modal de Nova Venda */}
       {isOpenNewModal && (
-        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-3xl w-full border border-stone-200 shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-3xl w-full border border-stone-200 shadow-2xl overflow-hidden my-auto sm:my-8 max-h-[92vh] sm:max-h-[90vh] flex flex-col">
             {/* Topo do Modal */}
-            <div className="p-5 border-b border-stone-100 flex items-center justify-between bg-gradient-to-r from-white to-[#FFF5F6]">
+            <div className="p-4 sm:p-5 border-b border-stone-100 flex items-center justify-between bg-gradient-to-r from-white to-[#FFF5F6]">
               <div>
                 <h3 className="font-serif text-lg font-bold text-stone-900">
                   Registrar Nova Venda para Cliente
@@ -660,7 +660,7 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
             </div>
 
             {/* Formulário com Scroll */}
-            <form onSubmit={handleSaveSaleOrder} className="p-6 space-y-6 overflow-y-auto text-xs">
+            <form onSubmit={handleSaveSaleOrder} className="p-4 sm:p-6 space-y-5 sm:space-y-6 overflow-y-auto text-xs">
               {/* Cliente e Data */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -1020,17 +1020,17 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
               </div>
 
               {/* Botões do Rodapé */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100">
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 sm:gap-3 pt-4 border-t border-stone-100">
                 <button
                   type="button"
                   onClick={onCloseNewModal}
-                  className="px-4 py-2.5 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl cursor-pointer"
+                  className="w-full sm:w-auto px-4 py-2.5 text-xs font-semibold text-stone-600 hover:bg-stone-100 rounded-xl cursor-pointer text-center"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 cursor-pointer text-center"
                 >
                   Confirmar e Registrar Venda
                 </button>
@@ -1042,8 +1042,8 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
 
       {/* Modal de Recibo Digital / Comprovante */}
       {selectedReceiptSale && (
-        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full border border-stone-200 shadow-2xl p-6 max-h-[90vh] overflow-y-auto space-y-4">
+        <div className="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full border border-stone-200 shadow-2xl p-4 sm:p-6 max-h-[92vh] sm:max-h-[90vh] overflow-y-auto space-y-4 my-auto">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div className="flex items-center gap-2 text-rose-600">
                 <FileText className="w-5 h-5" />
@@ -1060,7 +1060,7 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
             </div>
 
             {/* Visual do Recibo */}
-            <div className="bg-[#FCFAF8] p-5 rounded-2xl border border-stone-200/90 text-xs font-mono space-y-3">
+            <div className="bg-[#FCFAF8] p-4 sm:p-5 rounded-2xl border border-stone-200/90 text-xs font-mono space-y-3">
               <div className="text-center pb-3 border-b border-dashed border-stone-300">
                 <h4 className="font-bold text-sm text-stone-900">{profile.businessName || 'Consultoria de Beleza'}</h4>
                 <p className="text-[11px] text-stone-500">Consultora: {profile.name}</p>
@@ -1115,10 +1115,10 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
             </div>
 
             {/* Ações do Recibo */}
-            <div className="flex items-center justify-between gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 pt-2">
               <button
                 onClick={() => handleCopyReceipt(selectedReceiptSale)}
-                className="flex-1 py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="flex-1 py-2.5 px-3 bg-stone-100 hover:bg-stone-200 text-stone-800 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer text-center"
               >
                 {copiedReceipt ? (
                   <>
@@ -1140,7 +1140,7 @@ export const SalesManagement: React.FC<SalesManagementProps> = ({
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-2.5 px-3 bg-[#25D366] hover:bg-[#20be5c] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                className="flex-1 py-2.5 px-3 bg-[#25D366] hover:bg-[#20be5c] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-xs text-center"
               >
                 <Share2 className="w-4 h-4" />
                 <span>Enviar no WhatsApp</span>

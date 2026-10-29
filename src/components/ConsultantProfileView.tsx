@@ -101,8 +101,8 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
     <div className="space-y-8 animate-fade-in max-w-5xl mx-auto">
       {/* Header com Boas-Vindas e Status */}
       <div className="bg-gradient-to-r from-white via-[#FFF5F6] to-[#FFF0F3] border border-[#FAD2DA] rounded-3xl p-6 lg:p-8 shadow-xs">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-5">
             <div className="relative">
               <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-rose-300 shadow-md bg-rose-50 shrink-0">
                 <img
@@ -117,7 +117,7 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
             </div>
 
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 bg-rose-100/70 px-2.5 py-0.5 rounded-full">
                   Cadastro Oficial da Consultora
                 </span>
@@ -169,7 +169,7 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
         </div>
 
         {/* Resumo de Atividades Reais */}
-        <div className="grid grid-cols-3 gap-3 mt-6 pt-5 border-t border-rose-100">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 mt-6 pt-5 border-t border-rose-100">
           <div className="bg-white/80 rounded-xl p-3 border border-rose-100 text-center">
             <span className="text-[11px] text-stone-500 block">Clientes Cadastrados</span>
             <span className="font-mono text-lg font-bold text-stone-900">{clientsCount}</span>
@@ -437,10 +437,10 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
         </div>
 
         {/* Botão de Salvar */}
-        <div className="pt-4 border-t border-stone-100 flex items-center justify-end gap-3">
+        <div className="pt-4 border-t border-stone-100 flex items-center justify-end">
           <button
             type="submit"
-            className="px-6 py-3 bg-gradient-to-r from-rose-500 via-rose-600 to-rose-700 hover:from-rose-600 hover:to-rose-800 text-white text-xs font-bold rounded-xl shadow-md shadow-rose-500/20 flex items-center gap-2 cursor-pointer transition-all"
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-rose-500 via-rose-600 to-rose-700 hover:from-rose-600 hover:to-rose-800 text-white text-xs font-bold rounded-xl shadow-md shadow-rose-500/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
           >
             <Save className="w-4 h-4" />
             Salvar Meu Cadastro de Consultora

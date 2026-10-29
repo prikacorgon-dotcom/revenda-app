@@ -143,7 +143,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Zone 3: Perfil da Consultora & Botão Nova Venda */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={() => setActiveTab('perfil')}
             className="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-stone-50 border border-transparent hover:border-stone-200 transition-all cursor-pointer"
@@ -176,72 +176,72 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onNewSaleClick}
-            className="px-4 py-2 text-xs font-bold tracking-wide text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0"
+            className="px-3 sm:px-4 py-2 text-xs font-bold tracking-wide text-white bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 rounded-xl shadow-xs shadow-rose-200 flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap shrink-0"
           >
             <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-            Nova Venda
+            <span>Nova Venda</span>
           </button>
         </div>
       </div>
 
-      {/* Mobile Sub-Navigation Bar */}
-      <div className="md:hidden flex items-center gap-2 overflow-x-auto pt-3 pb-1 border-t border-stone-100 mt-2 text-xs scrollbar-none">
+      {/* Mobile Sub-Navigation Bar (Scroll horizontal rápido no topo) */}
+      <div className="md:hidden flex items-center gap-1.5 overflow-x-auto pt-2.5 pb-0.5 border-t border-stone-100 mt-2 text-xs scrollbar-none">
         <button
           onClick={() => setActiveTab('dashboard')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'dashboard'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Visão Geral
         </button>
         <button
           onClick={() => setActiveTab('vendas')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'vendas'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Vendas
         </button>
         <button
           onClick={() => setActiveTab('compras')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'compras'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Compras
         </button>
         <button
           onClick={() => setActiveTab('marcas')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'marcas'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Pontos
         </button>
         <button
           onClick={() => setActiveTab('clientes')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'clientes'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Clientes
         </button>
         <button
           onClick={() => setActiveTab('avisos')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium flex items-center gap-1 ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold flex items-center gap-1 transition-colors ${
             activeTab === 'avisos'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-stone-600 bg-stone-100'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-stone-600 bg-stone-100 hover:bg-stone-200'
           }`}
         >
           Avisos
@@ -253,15 +253,96 @@ export const Navbar: React.FC<NavbarProps> = ({
         </button>
         <button
           onClick={() => setActiveTab('perfil')}
-          className={`px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 font-medium ${
+          className={`px-3 py-1 rounded-lg whitespace-nowrap shrink-0 font-semibold transition-colors ${
             activeTab === 'perfil'
-              ? 'bg-rose-500 text-white font-bold'
-              : 'text-rose-700 bg-rose-50'
+              ? 'bg-rose-500 text-white shadow-2xs'
+              : 'text-rose-700 bg-rose-50 hover:bg-rose-100'
           }`}
         >
           Meu Cadastro
         </button>
       </div>
+
+      {/* Mobile Bottom Navigation Bar (Barra Fixa Inferior Nativa para Smartphones) */}
+      <nav
+        aria-label="Navegação inferior mobile"
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/90 py-1.5 px-2 flex items-center justify-around shadow-lg"
+      >
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'dashboard'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <Sparkles className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Início</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('vendas')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'vendas'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <ShoppingBag className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Vendas</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('compras')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'compras'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <PackageCheck className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Compras</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('clientes')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'clientes'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <Users className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Clientes</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('avisos')}
+          className={`relative flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'avisos'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <BellRing className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Avisos</span>
+          {dueAlertsCount > 0 && (
+            <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
+          )}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('perfil')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all min-w-[52px] cursor-pointer ${
+            activeTab === 'perfil'
+              ? 'text-rose-600 font-bold bg-rose-50/80'
+              : 'text-stone-500 hover:text-stone-900'
+          }`}
+        >
+          <UserCheck className="w-4 h-4 mb-0.5" />
+          <span className="text-[10px]">Perfil</span>
+        </button>
+      </nav>
     </header>
   );
 };
