@@ -14,15 +14,20 @@ import {
   Check,
   ShieldCheck,
   Trash2,
+  Camera,
+  LogOut,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { ConsultantProfile } from '../types';
 import { formatPhone } from '../utils/formatters';
+import { PhotoCaptureModal } from './PhotoCaptureModal';
 
 interface ConsultantProfileViewProps {
   profile: ConsultantProfile;
   onSaveProfile: (profile: ConsultantProfile) => void;
   onClearForRealUsage: () => void;
   onResetToDemo: () => void;
+  onLogout?: () => void;
   salesCount: number;
   clientsCount: number;
   purchasesCount: number;
@@ -45,6 +50,7 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
   onSaveProfile,
   onClearForRealUsage,
   onResetToDemo,
+  onLogout,
   salesCount,
   clientsCount,
   purchasesCount,
@@ -63,6 +69,8 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
   const [registeredBrands, setRegisteredBrands] = useState<string[]>(
     profile.registeredBrands || []
   );
+  const [avatarUrl, setAvatarUrl] = useState(profile.avatarUrl || '');
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [notes, setNotes] = useState(profile.notes || '');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
@@ -89,6 +97,7 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
       address: address.trim(),
       resellerLevel,
       registeredBrands,
+      avatarUrl: avatarUrl || profile.avatarUrl,
       notes: notes.trim(),
     };
 
@@ -103,15 +112,23 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
       <div className="bg-gradient-to-r from-white via-[#FFF5F6] to-[#FFF0F3] border border-[#FAD2DA] rounded-3xl p-6 lg:p-8 shadow-xs">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-5">
-            <div className="relative">
+            <div className="relative group">
               <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-rose-300 shadow-md bg-rose-50 shrink-0">
                 <img
-                  src={profile.avatarUrl || '/src/assets/images/consultant_profile_avatar_1793146987839.jpg'}
+                  src={avatarUrl || profile.avatarUrl || '/src/assets/images/consultant_profile_avatar_1793146987839.jpg'}
                   alt={profile.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="absolute -bottom-1 -right-1 bg-gradient-to-r from-rose-500 to-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-xs">
+              <button
+                type="button"
+                onClick={() => setIsPhotoModalOpen(true)}
+                className="absolute -bottom-1 -right-1 bg-gradient-to-tr from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white p-1.5 rounded-xl shadow-md cursor-pointer transition-transform hover:scale-105"
+                title="Tirar foto com câmera ou escolher da galeria"
+              >
+                <Camera className="w-3.5 h-3.5" />
+              </button>
+              <span className="absolute -top-1 -left-1 bg-gradient-to-r from-rose-500 to-rose-600 text-white text-[9px] font-bold px-1.5 py-0.2 rounded-full shadow-xs">
                 {resellerLevel}
               </span>
             </div>
@@ -128,14 +145,38 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
               <h1 className="font-serif text-2xl lg:text-3xl font-bold text-stone-900 tracking-tight">
                 {profile.name || 'Minha Conta de Consultora'}
               </h1>
-              <p className="text-xs text-stone-600 mt-1">
+              <p className="text-xs text-stone-600 mt-0.5">
                 {profile.businessName || 'Consultoria de Beleza Multimarcas'}
               </p>
+              <button
+                type="button"
+                onClick={() => setIsPhotoModalOpen(true)}
+                className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 mt-1.5 cursor-pointer mx-auto sm:mx-0"
+              >
+                <Camera className="w-3.5 h-3.5" />
+                <span>Alterar foto (Câmera ou Galeria)</span>
+              </button>
             </div>
           </div>
 
-          {/* Botão de Limpar para Uso Real */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          {/* Botões de Ação do Topo */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            {onLogout && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm('Deseja sair da sua conta e retornar para a tela de login?')) {
+                    onLogout();
+                  }
+                }}
+                className="px-3.5 py-2 text-xs font-semibold text-stone-600 hover:text-rose-700 bg-white hover:bg-rose-50 border border-stone-200 hover:border-rose-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                title="Sair / Trocar de conta"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Sair da Conta</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => {
@@ -147,11 +188,11 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
                   onClearForRealUsage();
                 }
               }}
-              className="px-4 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               title="Apagar dados fictícios e iniciar sistema limpo"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              Limpar Demonstração (Iniciar do Zero)
+              <span>Limpar Demonstração</span>
             </button>
             <button
               type="button"
@@ -160,10 +201,10 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
                   onResetToDemo();
                 }
               }}
-              className="px-4 py-2 text-xs font-semibold text-stone-600 bg-white hover:bg-stone-50 border border-stone-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 text-xs font-semibold text-stone-600 bg-white hover:bg-stone-50 border border-stone-200 rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              Recarregar Exemplos
+              <span>Recarregar Exemplos</span>
             </button>
           </div>
         </div>
@@ -447,6 +488,23 @@ export const ConsultantProfileView: React.FC<ConsultantProfileViewProps> = ({
           </button>
         </div>
       </form>
+
+      {/* Modal de Foto da Consultora (Câmera e Galeria) */}
+      <PhotoCaptureModal
+        isOpen={isPhotoModalOpen}
+        onClose={() => setIsPhotoModalOpen(false)}
+        onPhotoSelected={(dataUrl) => {
+          setAvatarUrl(dataUrl);
+          // Salva imediatamente no perfil para feedback instantâneo
+          onSaveProfile({
+            ...profile,
+            avatarUrl: dataUrl,
+          });
+        }}
+        title="Foto de Perfil da Consultora"
+        subtitle="Tire uma foto sua com a câmera ou selecione da sua galeria"
+        currentPhotoUrl={avatarUrl || profile.avatarUrl}
+      />
     </div>
   );
 };

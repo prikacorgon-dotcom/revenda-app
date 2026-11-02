@@ -22,6 +22,7 @@ const STORAGE_KEYS = {
   CLIENTS: 'bellagestao_clients_v2',
   SALES: 'bellagestao_sales_v2',
   PROFILE: 'bellagestao_profile_v2',
+  AUTH: 'bellagestao_auth_v2',
 };
 
 // Limpa chaves legadas se existirem
@@ -265,6 +266,58 @@ export const storageService = {
     this.saveSales([]);
     if (customProfile) {
       this.saveProfile(customProfile);
+    }
+  },
+
+  isLoggedIn(): boolean {
+    const data = localStorage.getItem(STORAGE_KEYS.AUTH);
+    if (!data) return false;
+    try {
+      const parsed = JSON.parse(data);
+      return Boolean(parsed.isLoggedIn);
+    } catch {
+      return false;
+    }
+  },
+
+  setLoggedIn(status: boolean, email?: string, rememberMe = true): void {
+    const current = this.getAuthCredentials() || {};
+    localStorage.setItem(
+      STORAGE_KEYS.AUTH,
+      JSON.stringify({
+        ...current,
+        isLoggedIn: status,
+        email: email || current.email || '',
+        rememberMe,
+        lastLoginAt: new Date().toISOString(),
+      })
+    );
+  },
+
+  getAuthCredentials(): { email?: string; rememberMe?: boolean; isLoggedIn?: boolean } | null {
+    const data = localStorage.getItem(STORAGE_KEYS.AUTH);
+    if (!data) return null;
+    try {
+      return JSON.parse(data);
+    } catch {
+      return null;
+    }
+  },
+
+  logout(): void {
+    const current = this.getAuthCredentials();
+    if (current && current.rememberMe) {
+      // Mantém o email para login rápido
+      localStorage.setItem(
+        STORAGE_KEYS.AUTH,
+        JSON.stringify({
+          email: current.email,
+          rememberMe: true,
+          isLoggedIn: false,
+        })
+      );
+    } else {
+      localStorage.removeItem(STORAGE_KEYS.AUTH);
     }
   },
 };

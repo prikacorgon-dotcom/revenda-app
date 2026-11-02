@@ -18,8 +18,10 @@ import { SalesManagement } from './components/SalesManagement';
 import { DueRemindersView } from './components/DueRemindersView';
 import { ConsultantProfileView } from './components/ConsultantProfileView';
 import { SettingsAndCardsModal } from './components/SettingsAndCardsModal';
+import { LoginPage } from './components/LoginPage';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => storageService.isLoggedIn());
   const [activeTab, setActiveTab] = useState<
     'dashboard' | 'vendas' | 'compras' | 'marcas' | 'clientes' | 'avisos' | 'perfil'
   >('dashboard');
@@ -37,6 +39,22 @@ export default function App() {
   const [isNewPurchaseModalOpen, setIsNewPurchaseModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [preSelectedClient, setPreSelectedClient] = useState<Client | null>(null);
+
+  const handleLoginSuccess = (newProfile?: ConsultantProfile) => {
+    if (newProfile) {
+      setProfile(newProfile);
+      storageService.saveProfile(newProfile);
+      storageService.setLoggedIn(true, newProfile.email);
+    } else {
+      storageService.setLoggedIn(true, profile.email);
+    }
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    storageService.logout();
+    setIsLoggedIn(false);
+  };
 
   // Carrega dados iniciais do LocalStorage
   const loadAllData = () => {
@@ -193,6 +211,16 @@ export default function App() {
     return count;
   }, [sales, purchases]);
 
+  if (!isLoggedIn) {
+    return (
+      <LoginPage
+        onLoginSuccess={handleLoginSuccess}
+        currentProfile={profile}
+        initialEmail={storageService.getAuthCredentials()?.email}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#FDFBF9] text-stone-900 flex flex-col font-sans">
       {/* Top Bar seguindo o Top Bar Contract */}
@@ -204,6 +232,7 @@ export default function App() {
           setIsNewSaleModalOpen(true);
         }}
         onOpenSettings={() => setIsSettingsModalOpen(true)}
+        onLogout={handleLogout}
         dueAlertsCount={dueAlertsCount}
         profile={profile}
       />
@@ -301,6 +330,7 @@ export default function App() {
             onSaveProfile={handleSaveProfile}
             onClearForRealUsage={handleClearForRealUsage}
             onResetToDemo={handleResetToDemo}
+            onLogout={handleLogout}
             salesCount={sales.length}
             clientsCount={clients.length}
             purchasesCount={purchases.length}

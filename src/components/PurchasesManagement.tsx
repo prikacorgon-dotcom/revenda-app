@@ -13,6 +13,8 @@ import {
   ExternalLink,
   MessageCircle,
   Mail,
+  Camera,
+  Image as ImageIcon,
 } from 'lucide-react';
 import {
   Brand,
@@ -21,6 +23,7 @@ import {
   PurchaseItem,
   ConsultantProfile,
 } from '../types';
+import { PhotoCaptureModal } from './PhotoCaptureModal';
 import {
   formatCurrency,
   formatDateBR,
@@ -121,6 +124,12 @@ export const PurchasesManagement: React.FC<PurchasesManagementProps> = ({
     quantity: number;
     suggestedSalePrice: number;
   }>>([]);
+
+  // Estado para capturar foto de produto ou brinde com câmera/galeria
+  const [photoTarget, setPhotoTarget] = useState<{
+    type: 'item' | 'gift';
+    index: number;
+  } | null>(null);
 
   // Forma de pagamento
   const [paymentMethod, setPaymentMethod] = useState<'boleto_a_vista' | 'boleto_parcelado' | 'pix_a_vista' | 'cartao_credito'>('boleto_parcelado');
@@ -809,13 +818,23 @@ export const PurchasesManagement: React.FC<PurchasesManagementProps> = ({
                       className="p-4 bg-[#FCFAF8] border border-stone-200/80 rounded-2xl flex flex-col md:flex-row items-center gap-3.5 shadow-2xs"
                     >
                       {/* Miniatura / Foto Real */}
-                      <div className="w-14 h-14 rounded-xl overflow-hidden border border-stone-200 bg-white shrink-0 shadow-2xs">
-                        <img
-                          src={item.imageUrl || PRESET_IMAGES[0].url}
-                          alt="Produto"
-                          className="w-full h-full object-cover"
-                          referrerPolicy="no-referrer"
-                        />
+                      <div className="relative group shrink-0">
+                        <div className="w-14 h-14 rounded-2xl overflow-hidden border border-stone-200 bg-white shadow-2xs">
+                          <img
+                            src={item.imageUrl || PRESET_IMAGES[0].url}
+                            alt="Produto"
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setPhotoTarget({ type: 'item', index: idx })}
+                          className="absolute -bottom-1 -right-1 p-1 bg-gradient-to-tr from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-lg shadow-xs cursor-pointer transition-transform hover:scale-105"
+                          title="Tirar foto com a câmera ou escolher da galeria"
+                        >
+                          <Camera className="w-3 h-3" />
+                        </button>
                       </div>
 
                       {/* Campos do Produto */}
@@ -938,24 +957,36 @@ export const PurchasesManagement: React.FC<PurchasesManagementProps> = ({
 
                         <div className="col-span-3">
                           <label className="block text-[10px] font-semibold text-stone-500 mb-0.5">
-                            Foto / Imagem do Produto
+                            Foto Real do Produto
                           </label>
-                          <select
-                            value={item.imageUrl}
-                            onChange={(e) => {
-                              const val = e.target.value;
-                              setItems((prev) =>
-                                prev.map((it, i) => (i === idx ? { ...it, imageUrl: val } : it))
-                              );
-                            }}
-                            className="w-full text-xs bg-white border border-stone-200 rounded-xl p-2 focus:outline-none focus:border-rose-400"
-                          >
-                            {PRESET_IMAGES.map((img, i) => (
-                              <option key={i} value={img.url}>
-                                {img.label}
-                              </option>
-                            ))}
-                          </select>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => setPhotoTarget({ type: 'item', index: idx })}
+                              className="flex-1 py-1.5 px-2.5 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 font-bold rounded-xl text-[11px] flex items-center justify-center gap-1 transition-colors cursor-pointer whitespace-nowrap"
+                            >
+                              <Camera className="w-3.5 h-3.5" />
+                              <span>Tirar Foto / Galeria</span>
+                            </button>
+                            <select
+                              value={item.imageUrl}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setItems((prev) =>
+                                  prev.map((it, i) => (i === idx ? { ...it, imageUrl: val } : it))
+                                );
+                              }}
+                              className="w-28 sm:w-32 text-xs bg-white border border-stone-200 rounded-xl p-1.5 focus:outline-none focus:border-rose-400 truncate"
+                              title="Ou escolha imagem ilustrativa da lista"
+                            >
+                              <option value="">Ilustrações...</option>
+                              {PRESET_IMAGES.map((img, i) => (
+                                <option key={i} value={img.url}>
+                                  {img.label}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
                       </div>
 
@@ -1000,75 +1031,98 @@ export const PurchasesManagement: React.FC<PurchasesManagementProps> = ({
                     Nenhum brinde anexado. Se a marca enviou produtos grátis, clique em "+ Adicionar brinde".
                   </div>
                 ) : (
-                  <div className="space-y-2">
-                    {giftItems.map((gift, gIdx) => (
-                      <div
-                        key={gift.tempId}
-                        className="bg-white p-3 rounded-xl border border-stone-200 flex items-center gap-3 text-xs shadow-2xs"
-                      >
-                        <input
-                          type="text"
-                          value={gift.name}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setGiftItems((prev) =>
-                              prev.map((g, i) => (i === gIdx ? { ...g, name: val } : g))
-                            );
-                          }}
-                          placeholder="Nome do brinde (ex: Batom ou Hidratante)"
-                          className="flex-1 bg-[#FCFAF8] border border-stone-200 rounded-lg p-2 text-xs focus:outline-none focus:border-rose-400"
-                          required
-                        />
-                        <input
-                          type="text"
-                          value={gift.productCode}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setGiftItems((prev) =>
-                              prev.map((g, i) => (i === gIdx ? { ...g, productCode: val } : g))
-                            );
-                          }}
-                          placeholder="Código"
-                          className="w-24 bg-[#FCFAF8] border border-stone-200 rounded-lg p-2 text-xs focus:outline-none focus:border-rose-400"
-                        />
-                        <input
-                          type="number"
-                          min="1"
-                          value={gift.quantity}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value, 10) || 1;
-                            setGiftItems((prev) =>
-                              prev.map((g, i) => (i === gIdx ? { ...g, quantity: val } : g))
-                            );
-                          }}
-                          className="w-16 bg-[#FCFAF8] border border-stone-200 rounded-lg p-2 text-xs font-mono text-center focus:outline-none focus:border-rose-400"
-                          title="Quantidade de brindes"
-                        />
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={gift.suggestedSalePrice || ''}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value) || 0;
-                            setGiftItems((prev) =>
-                              prev.map((g, i) => (i === gIdx ? { ...g, suggestedSalePrice: val } : g))
-                            );
-                          }}
-                          placeholder="Preço Venda"
-                          className="w-24 bg-[#FCFAF8] border border-stone-200 rounded-lg p-2 text-xs font-mono text-right focus:outline-none focus:border-rose-400"
-                          title="Valor sugerido de venda para lucrar 100%"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveGift(gIdx)}
-                          className="text-stone-400 hover:text-red-500 p-1 cursor-pointer"
+                    <div className="space-y-2">
+                      {giftItems.map((gift, gIdx) => (
+                        <div
+                          key={gift.tempId}
+                          className="bg-white p-3 rounded-2xl border border-stone-200 flex flex-wrap sm:flex-nowrap items-center gap-2.5 text-xs shadow-2xs"
                         >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                          {/* Miniatura do Brinde com Botão de Câmera */}
+                          <div className="relative group shrink-0">
+                            <div className="w-10 h-10 rounded-xl overflow-hidden border border-rose-200 bg-rose-50 flex items-center justify-center">
+                              {gift.imageUrl ? (
+                                <img
+                                  src={gift.imageUrl}
+                                  alt={gift.name || 'Brinde'}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <Gift className="w-4 h-4 text-rose-500" />
+                              )}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setPhotoTarget({ type: 'gift', index: gIdx })}
+                              className="absolute -bottom-1 -right-1 p-1 bg-gradient-to-tr from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-md shadow-xs cursor-pointer"
+                              title="Tirar foto do brinde com a câmera ou galeria"
+                            >
+                              <Camera className="w-2.5 h-2.5" />
+                            </button>
+                          </div>
+
+                          <input
+                            type="text"
+                            value={gift.name}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setGiftItems((prev) =>
+                                prev.map((g, i) => (i === gIdx ? { ...g, name: val } : g))
+                              );
+                            }}
+                            placeholder="Nome do brinde (ex: Batom ou Hidratante)"
+                            className="flex-1 min-w-[140px] bg-[#FCFAF8] border border-stone-200 rounded-xl p-2 text-xs focus:outline-none focus:border-rose-400"
+                            required
+                          />
+                          <input
+                            type="text"
+                            value={gift.productCode}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setGiftItems((prev) =>
+                                prev.map((g, i) => (i === gIdx ? { ...g, productCode: val } : g))
+                              );
+                            }}
+                            placeholder="Código"
+                            className="w-20 sm:w-24 bg-[#FCFAF8] border border-stone-200 rounded-xl p-2 text-xs focus:outline-none focus:border-rose-400"
+                          />
+                          <input
+                            type="number"
+                            min="1"
+                            value={gift.quantity}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value, 10) || 1;
+                              setGiftItems((prev) =>
+                                prev.map((g, i) => (i === gIdx ? { ...g, quantity: val } : g))
+                              );
+                            }}
+                            className="w-14 sm:w-16 bg-[#FCFAF8] border border-stone-200 rounded-xl p-2 text-xs font-mono text-center focus:outline-none focus:border-rose-400"
+                            title="Quantidade de brindes"
+                          />
+                          <input
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            value={gift.suggestedSalePrice || ''}
+                            onChange={(e) => {
+                              const val = parseFloat(e.target.value) || 0;
+                              setGiftItems((prev) =>
+                                prev.map((g, i) => (i === gIdx ? { ...g, suggestedSalePrice: val } : g))
+                              );
+                            }}
+                            placeholder="Preço Venda"
+                            className="w-20 sm:w-24 bg-[#FCFAF8] border border-stone-200 rounded-xl p-2 text-xs font-mono text-right focus:outline-none focus:border-rose-400"
+                            title="Valor sugerido de venda para lucrar 100%"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveGift(gIdx)}
+                            className="text-stone-400 hover:text-red-500 p-1.5 rounded-lg hover:bg-stone-100 cursor-pointer"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                    </div>
                 )}
               </div>
 
@@ -1550,6 +1604,34 @@ export const PurchasesManagement: React.FC<PurchasesManagementProps> = ({
           </div>
         </div>
       )}
+
+      {/* Modal de Captura de Foto do Produto / Brinde com Câmera ou Galeria */}
+      <PhotoCaptureModal
+        isOpen={photoTarget !== null}
+        onClose={() => setPhotoTarget(null)}
+        onPhotoSelected={(dataUrl) => {
+          if (photoTarget) {
+            if (photoTarget.type === 'item') {
+              setItems((prev) =>
+                prev.map((it, i) => (i === photoTarget.index ? { ...it, imageUrl: dataUrl } : it))
+              );
+            } else if (photoTarget.type === 'gift') {
+              setGiftItems((prev) =>
+                prev.map((g, i) => (i === photoTarget.index ? { ...g, imageUrl: dataUrl } : g))
+              );
+            }
+          }
+        }}
+        title="Foto Real do Produto"
+        subtitle="Tire uma foto do produto com a câmera ou selecione da sua galeria"
+        currentPhotoUrl={
+          photoTarget
+            ? photoTarget.type === 'item'
+              ? items[photoTarget.index]?.imageUrl
+              : giftItems[photoTarget.index]?.imageUrl
+            : undefined
+        }
+      />
     </div>
   );
 };

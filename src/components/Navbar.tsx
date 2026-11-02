@@ -9,6 +9,7 @@ import {
   Plus,
   UserCheck,
   Settings,
+  LogOut,
 } from 'lucide-react';
 import { ConsultantProfile } from '../types';
 
@@ -17,6 +18,7 @@ interface NavbarProps {
   setActiveTab: (tab: 'dashboard' | 'vendas' | 'compras' | 'marcas' | 'clientes' | 'avisos' | 'perfil') => void;
   onNewSaleClick: () => void;
   onOpenSettings: () => void;
+  onLogout?: () => void;
   dueAlertsCount: number;
   profile: ConsultantProfile;
 }
@@ -26,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setActiveTab,
   onNewSaleClick,
   onOpenSettings,
+  onLogout,
   dueAlertsCount,
   profile,
 }) => {
@@ -173,6 +176,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Settings className="w-4 h-4" />
           </button>
+
+          {onLogout && (
+            <button
+              onClick={() => {
+                if (confirm('Deseja sair e voltar para a página de login?')) {
+                  onLogout();
+                }
+              }}
+              title="Sair / Trocar de Conta"
+              className="p-2 text-stone-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
 
           <button
             onClick={onNewSaleClick}
